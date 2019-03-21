@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QCARConfig xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="qcar_config.xsd">
+  <Tracking>
+    <ImageTarget name="Tequila_AR-back-label" size="1.000000 1.603333" />
+    <ImageTarget name="Tequila_AR-front-label" size="1.000000 1.370000" />
+    <ImageTarget name="stones" size="1.000000 0.701493" />
+  </Tracking>
+</QCARConfig>
