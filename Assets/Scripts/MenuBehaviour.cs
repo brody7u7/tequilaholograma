@@ -24,9 +24,12 @@ public class MenuBehaviour : MonoBehaviour {
         _screenWidth = Screen.width;
         _menuWith = gameObject.transform.Find("Navigation Drawer").GetComponent<RectTransform>().sizeDelta.x;
 
-        var drag = GetComponentInChildren<DragHandler>();
-        if (drag != null)
-            drag.setMenuBehaviour(this);
+        //var drag = GetComponentInChildren<DragHandler>();
+        //if (drag != null)
+        //drag.SetMenuBehaviour(this);
+        var drags = GetComponentsInChildren<DragHandler>(true);
+        foreach (var drag in drags)
+            drag.SetMenuBehaviour(this);
     }
 	
     public void OpenMenu()
@@ -47,7 +50,8 @@ public class MenuBehaviour : MonoBehaviour {
         }
         else
         {
-
+            _rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, _screenWidth);
+            IsMenuOpen = true;
         }
     }
 
@@ -59,18 +63,38 @@ public class MenuBehaviour : MonoBehaviour {
         }
         else
         {
-
+            _rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 790f);
+            IsMenuOpen = false;
         }
     }
 
     public void ChangeMenuPosition(Vector2 dragValue)
     {
-        float distance = Mathf.Abs(_menuWith - dragValue.x);
+        float distance = _menuWith - dragValue.x;
         Vector2 position = _rectTransform.anchoredPosition;
         position.x -= position.x + distance;
+        position.x = Mathf.Clamp(position.x, CLOSE_POSITION_X, OPEN_POSITION_X);
         _rectTransform.anchoredPosition = position;
-        //Debug.Log(position);
-        //Debug.Log(_menuWith);
+    }
+
+    public void SetOpenOrClose()
+    {
+        float positionX = _rectTransform.anchoredPosition.x;
+        if(positionX > (CLOSE_POSITION_X - OPEN_POSITION_X) / 2)
+        {
+            if (positionX >= OPEN_POSITION_X)
+                OpenMenu(false);
+            else
+                OpenMenu(true);
+
+        }
+        else
+        {
+            if (positionX <= CLOSE_POSITION_X)
+                CloseMenu(false);
+            else
+                CloseMenu(true);
+        }
     }
 
     IEnumerator AnimateOpenMenu()
