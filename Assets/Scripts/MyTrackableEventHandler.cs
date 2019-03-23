@@ -100,5 +100,11 @@ public class MyTrackableEventHandler : DefaultTrackableEventHandler {
             foreach (var component in videoComponents)
                 component.Pause();
         }
+        else
+        {
+            var fixes = g.GetComponentsInChildren<CanvasScalerFix>(true);
+            foreach (var fix in fixes)
+                fix.ChangePixelPerUnit();
+        }
     }
 }
